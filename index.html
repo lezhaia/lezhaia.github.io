@@ -6,9 +6,11 @@
     <title>Weiliang Test - Software Engineer & Content Creator</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
             line-height: 1.6;
         }
         header {
@@ -16,25 +18,35 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px;
+            color: rgb(0, 0, 0);
         }
         .logo {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
         }
         nav a {
             margin-left: 20px;
             text-decoration: none;
-            color: black;
+            color: rgb(0, 0, 0);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #ffeb3b;
         }
         main {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 40px 20px;
             text-align: center;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
         h1 {
-            font-size: 36px;
+            font-size: 40px;
             margin-bottom: 20px;
+            color: #4A90E2;
         }
         .gallery {
             display: grid;
@@ -46,6 +58,12 @@
             width: 100%;
             height: auto;
             object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
         }
         .project-info {
             text-align: center;
@@ -54,61 +72,77 @@
         .view-project {
             display: inline-block;
             margin-top: 20px;
+            padding: 10px 20px;
             text-decoration: none;
-            color: black;
-            border-bottom: 1px solid black;
+            background-color: #4A90E2;
+            color: white;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .view-project:hover {
+            background-color: #357ABD;
         }
         footer {
             display: flex;
             justify-content: space-between;
             padding: 40px 20px;
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 1000px;
+            margin: 50px auto 0;
             border-top: 1px solid #eee;
         }
         .footer-left, .footer-right {
             text-align: left;
         }
+        .footer-right a {
+            text-decoration: none;
+            color: #4A90E2;
+            font-weight: 500;
+        }
+        .footer-right a:hover {
+            text-decoration: underline;
+        }
+        .footer-right p {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">Weilaing</div>
+        <div class="logo">William</div>
         <nav>
-            <a href="#">Wallpapers</a>
-            <a href="#">OneMenu</a>
-            <a href="#">CoderType</a>
-            <a href="#"><img src="https://www.iconpacks.net/icons/1/free-youtube-icon-123-thumb.png" alt="YouTube" width="20" height="20"></a>
-            <a href="#"><img src="https://www.iconpacks.net/icons/2/free-instagram-logo-icon-3497-thumb.png" alt="Instagram" width="20" height="20"></a>
+            <a href="https://lezhaia.github.io/paycheck/">Paycheck System</a>
+            <a href="#">Calander Widget</a>
+            <a href="https://www.instagram.com/mrwilliamhuang/"><img src="https://www.iconpacks.net/icons/2/free-instagram-logo-icon-3497-thumb.png" alt="Instagram" width="20" height="20"></a>
         </nav>
     </header>
 
     <main>
-        <h1>Hi, I'm a software engineer and a content creator posting regularly about my daily life and projects.</h1>
+        <h1>Hi, I'm a content creator sharing my projects and life !</h1>
         
         <div class="gallery">
-            <img src="https://images.squarespace-cdn.com/content/v1/6368fd66cb727f1d5a2d927c/ecb320f9-6db0-42fe-bc18-def0ec01a71e/F_1.2.1.jpg?format=750w" alt="Coding setup with dual monitors">
-            <img src="https://images.squarespace-cdn.com/content/v1/6368fd66cb727f1d5a2d927c/d1499e3a-dddd-40c4-9e6a-47913b341b73/E_1.76.1.jpg?format=750w" alt="Laptop and coffee on desk">
-            <img src="https://images.squarespace-cdn.com/content/v1/6368fd66cb727f1d5a2d927c/e23154d1-cd2b-4dde-98ce-05be293b989c/D_1.3.1.jpg?format=750w" alt="Hand pointing at screen">
-            <img src="https://images.squarespace-cdn.com/content/v1/6368fd66cb727f1d5a2d927c/8f9e10e9-23c8-4c37-96a3-d9ad592abcbd/C_1.6.1.jpg?format=500w" alt="City street">
-            <img src="https://images.squarespace-cdn.com/content/v1/6368fd66cb727f1d5a2d927c/93f33dc5-d9f9-48de-8381-f0d265b7a198/B_1.130.1.jpg?format=500w" alt="Night city view">
-            <img src="https://images.squarespace-cdn.com/content/v1/6368fd66cb727f1d5a2d927c/3ac493f6-5bc0-4b71-99ed-a6dc34444bc1/A_1.123.1.jpg?format=500w" alt="Laptop in car">
+            <img src="https://i.meee.com.tw/s08kO0W.jpg" alt="JPG 01">
+            <img src="https://i.meee.com.tw/iepKcEU.jpg" alt="JPG 02">
+            <img src="https://i.meee.com.tw/V55Ckw9.jpg" alt="JPG 03">
+            <img src="https://i.meee.com.tw/lr51dGI.jpg" alt="JPG 04">
+            <img src="https://i.meee.com.tw/LflQqD4.jpg" alt="JPG 05">
+            <img src="https://i.meee.com.tw/OLSTHa7.jpg" alt="JPG 06">
         </div>
 
         <div class="project-info">
-            <p>Recently, I have been working on a side project called OneMenu. It's a menu bar app for the Mac.</p>
+            <p>Thinking is beautiful.</p>
             <a href="#" class="view-project">View Project →</a>
         </div>
     </main>
 
     <footer>
         <div class="footer-left">
-            <p>Marko</p>
+            <p>William</p>
         </div>
         <div class="footer-right">
-            <p>Follow me on <a href="#">Instagram</a></p>
+            <p>Follow me on <a href="https://www.instagram.com/mrwilliamhuang/">Instagram</a></p>
             <p>Business email</p>
-            <p>business@withmarko.com</p>
+            <p>mickey101087@gmail.com</p>
         </div>
     </footer>
 </body>
