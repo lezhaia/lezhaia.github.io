@@ -1,149 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>William.</title>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-            line-height: 1.6;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            color: rgb(0, 0, 0);
-        }
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-        }
-        nav a {
-            margin-left: 20px;
-            text-decoration: none;
-            color: rgb(0, 0, 0);
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        nav a:hover {
-            color: #ffeb3b;
-        }
-        main {
-            max-width: 1010px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            text-align: center;
-            background-color: white;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        h1 {
-            font-size: 40px;
-            margin-bottom: 20px;
-            color: #4A90E2;
-        }
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-        .gallery img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-        .gallery img:hover {
-            transform: scale(1.05);
-        }
-        .project-info {
-            text-align: center;
-            margin-top: 60px;
-        }
-        .view-project {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            text-decoration: none;
-            background-color: #4A90E2;
-            color: white;
-            border-radius: 30px;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
-        .view-project:hover {
-            background-color: #357ABD;
-        }
-        footer {
-            display: flex;
-            justify-content: space-between;
-            padding: 40px 20px;
-            max-width: 1000px;
-            margin: 50px auto 0;
-            border-top: 1px solid #eee;
-        }
-        .footer-left, .footer-right {
-            text-align: left;
-        }
-        .footer-right a {
-            text-decoration: none;
-            color: #4A90E2;
-            font-weight: 500;
-        }
-        .footer-right a:hover {
-            text-decoration: underline;
-        }
-        .footer-right p {
-            margin: 5px 0;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>William's Lens | SONY A7M4 Showcase</title>
+  <link rel="icon" href="https://avatars.githubusercontent.com/u/79249980?v=4" type="image/x-icon">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #111827;
+      --accent-color: #60a5fa;
+      --background: #f9fafb;
+      --text-color: #1f2937;
+      --muted-color: #6b7280;
+      --hover-glow: 0 0 12px rgba(96, 165, 250, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--background);
+      color: var(--text-color);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: var(--primary-color);
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      height: 42px;
+      border-radius: 50%;
+    }
+
+    .logo span {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .menu a {
+      color: #fff;
+      margin-left: 24px;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+
+    .menu a:hover {
+      color: var(--accent-color);
+    }
+
+    .intro {
+      background-color: #0f172a;
+      padding: 100px 20px 80px;
+      text-align: center;
+      color: white;
+    }
+
+    .intro h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    .intro p {
+      font-size: 1.2rem;
+      color: #cbd5e1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 36px;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .project-card {
+      width: 480px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+    }
+
+    .project-card h3 {
+      text-align: center;
+      padding-top: 16px;
+      font-size: 1.1rem;
+    }
+
+    .project-card p {
+      font-size: 0.9rem;
+      color: var(--muted-color);
+      text-align: center;
+      padding: 0 16px 16px;
+    }
+
+    .btn-container {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background-color: var(--accent-color);
+      color: white;
+      padding: 12px 28px;
+      border-radius: 999px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-primary:hover {
+      background-color: #3b82f6;
+      box-shadow: var(--hover-glow);
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 20px 40px;
+      background-color: #f3f4f6;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+      color: var(--muted-color);
+    }
+
+    footer strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text-color);
+    }
+
+    footer a {
+      color: var(--accent-color);
+      text-decoration: none;
+      margin-left: 12px;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="logo">William</div>
-        <nav>
-            <a href="https://lezhaia.github.io/paycheck/">Paycheck System</a>
-            <a href="#">Calander Widget</a>
-            <a href="https://www.instagram.com/mrwilliamhuang/"><img src="https://www.iconpacks.net/icons/2/free-instagram-logo-icon-3497-thumb.png" alt="Instagram" width="20" height="20"></a>
-        </nav>
-    </header>
+  <header>
+    <div class="logo">
+      <img src="https://avatars.githubusercontent.com/u/79249980?v=4" alt="Logo">
+      <span>Mr.William</span>
+    </div>
+    <nav class="menu">
+      <a href="#">More content coming soon...</a>
+      <!-- <a href="#">Home</a>
+      <a href="#">Gear</a>
+      <a href="#">Portfolio</a>
+      <a href="#">Contact</a> -->
+    </nav>
+  </header>
 
-    <main>
-        <h1>Hi, I'm a content creator sharing my projects and life !</h1>
-        
-        <div class="gallery">
-            <img src="https://i.meee.com.tw/s08kO0W.jpg" alt="JPG 01">
-            <img src="https://i.meee.com.tw/iepKcEU.jpg" alt="JPG 02">
-            <img src="https://i.meee.com.tw/V55Ckw9.jpg" alt="JPG 03">
-            <img src="https://i.meee.com.tw/lr51dGI.jpg" alt="JPG 04">
-            <img src="https://i.meee.com.tw/LflQqD4.jpg" alt="JPG 05">
-            <img src="https://i.meee.com.tw/OLSTHa7.jpg" alt="JPG 06">
-        </div>
+  <section class="intro">
+    <h1>Through the Lens of Mr.William</h1>
+    <p>Captured with the SONY A7M4 – <br>G Master 24-70mm II and SIGMA 16-28mm II lens </p>
+  </section>
 
-        <div class="project-info">
-            <p>Thinking is beautiful.</p>
-            <a href="#" class="view-project">View Project →</a>
-        </div>
-    </main>
+  <section class="gallery">
+    <div class="project-card">
+      <img src="https://i.meee.com.tw/s08kO0W.jpg" alt="Graduation Moment">
+      <h3>Captured using SONY A7M4 & G Master 24-70mm II</h3>
+      <p>Natural light · 1/200s · ISO 100</p>
+    </div>
+    <div class="project-card">
+      <img src="https://i.meee.com.tw/iepKcEU.jpg" alt="Concert Crowd">
+      <h3>Captured using SONY A7M4 & G Master 24-70mm II</h3>
+      <p>F4.5 · 1/160s · ISO 800</p>
+    </div>
+    <div class="project-card">
+      <img src="https://i.meee.com.tw/V55Ckw9.jpg" alt="Stage Performance">
+      <h3>Captured using SONY A7M4 & G Master 24-70mm II</h3>
+      <p>Stage light · 1/250s · ISO 1600</p>
+    </div>
+    <div class="project-card">
+      <img src="https://i.meee.com.tw/lr51dGI.jpg" alt="Workshop">
+      <h3>Captured using SONY A7M4 & G Master 24-70mm II</h3>
+      <p>Indoor light · 1/125s · ISO 400</p>
+    </div>
+    <div class="project-card">
+      <img src="https://i.meee.com.tw/LflQqD4.jpg" alt="Teaching Moment">
+      <h3>Captured using SONY A7M4 & G Master 24-70mm II</h3>
+      <p>F5.6 · 1/100s · ISO 320</p>
+    </div>
+    <div class="project-card">
+      <img src="https://i.meee.com.tw/OLSTHa7.jpg" alt="Studio Portrait">
+      <h3>Captured using SONY A7M4 & G Master 24-70mm II</h3>
+      <p>Studio light · 1/200s · ISO 100</p>
+    </div>
+  </section>
 
-    <footer>
-        <div class="footer-left">
-            <p>William</p>
-        </div>
-        <div class="footer-right">
-            <p>Follow me on <a href="https://www.instagram.com/mrwilliamhuang/">Instagram</a></p>
-            <p>Business email</p>
-            <p>mickey101087@gmail.com</p>
-        </div>
-    </footer>
+  <div class="btn-container">
+    <a href="#" class="btn-primary">More Projects Coming Soon...</a>
+  </div>
+
+  <footer>
+    <div>
+      <strong>“Photography is the art of frozen time.”</strong>
+      © 2025 Mr.William All Rights Reserved.
+    </div>
+    <div>
+      <a href="#"><i class="fa-brands fa-flickr"></i> Flickr</a>
+      <a href="https://instagram.com/526px" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
+      <a href="mailto:526pxstudio@gmail.com"><i class="fa-solid fa-envelope"></i> Email Me</a>
+    </div>
+  </footer>
 </body>
 </html>
