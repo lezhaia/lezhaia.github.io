@@ -92,10 +92,39 @@
 
     .photos figcaption span:last-child { color: var(--muted); text-align: right; }
 
-    .soon {
-      margin: 40px 0 0;
-      color: var(--muted);
+    h2 {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 80px 0 4px;
+      padding-top: 8px;
     }
+    .sub { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+    h2 + .photos, h2 + .list { margin-top: 20px; }
+
+    .list { list-style: none; border-top: 1px solid var(--line); }
+    .list li {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 20px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .list b { font-weight: 500; }
+    .list p { color: var(--muted); font-size: 14px; max-width: 560px; }
+    .list .links a { font-size: 13px; color: var(--muted); margin-left: 12px; white-space: nowrap; }
+    .list .links a:hover { color: var(--text); }
+
+    #runner {
+      display: block;
+      width: 100%;
+      height: 170px;
+      border: 1px solid var(--line);
+      cursor: pointer;
+      touch-action: manipulation;
+      outline: none;
+    }
+    #runner:focus { border-color: var(--muted); }
 
     footer {
       margin-top: 96px;
@@ -156,6 +185,9 @@
       header { padding-top: 20px; }
       .intro { margin: 40px 0 32px; }
       .photos { columns: 1; }
+      header nav a { margin-left: 14px; }
+      .list li { flex-direction: column; gap: 4px; }
+      .list .links a { margin-left: 0; margin-right: 12px; }
     }
   </style>
 </head>
@@ -165,16 +197,20 @@
       <a class="name" href="./">Mr.William</a>
       <nav>
         <a href="#photos">Photos</a>
-        <a href="#contact">Contact</a>
+        <a href="#tools">Tools</a>
+        <a href="#fivem">FiveM</a>
+        <a href="#game">Game</a>
       </nav>
     </header>
 
     <section class="intro">
-      <p><strong>Through the lens of Mr.William.</strong></p>
-      <p>Shot on a Sony A7M4, mostly with the G Master 24-70mm II and the Sigma 16-28mm II.</p>
+      <p><strong>Hi, I'm William.</strong></p>
+      <p>I take photos, write small tools when something annoys me, and do FiveM development. This is where I keep all of it.</p>
     </section>
 
-    <section class="photos" id="photos">
+    <h2 id="photos">Photos</h2>
+    <p class="sub">Sony A7M4 · G Master 24-70mm II · Sigma 16-28mm II</p>
+    <section class="photos">
       <figure data-i="0">
         <img src="https://i.meee.com.tw/s08kO0W.jpg" alt="Graduation" loading="lazy">
         <figcaption><span>Graduation</span><span>Natural light · 1/200s · ISO 100</span></figcaption>
@@ -201,10 +237,34 @@
       </figure>
     </section>
 
-    <p class="soon">More soon.</p>
+
+    <h2 id="tools">Tools</h2>
+    <ul class="list">
+      <li>
+        <div>
+          <b>WZU 登入輔助工具</b>
+          <p>Chrome extension that fills in the captcha on the WZU single sign-on page for you. Runs locally, collects nothing.</p>
+        </div>
+        <span class="links"><a href="wzu-login-helper/privacy.html">Privacy</a></span>
+      </li>
+    </ul>
+
+    <h2 id="fivem">FiveM</h2>
+    <ul class="list">
+      <li>
+        <div>
+          <b>Coming soon</b>
+          <p>Scripts and resources I've made for FiveM servers. Still sorting them out.</p>
+        </div>
+      </li>
+    </ul>
+
+    <h2 id="game">Game</h2>
+    <p class="sub">Click the box, then press Space / ↑ (or tap) to jump. Don't hit anything.</p>
+    <canvas id="runner" tabindex="0" aria-label="Runner game"></canvas>
 
     <footer id="contact">
-      <span>“Photography is the art of frozen time.” — © 2025 Mr.William</span>
+      <span>© 2025 Mr.William</span>
       <span>
         <a href="#">Instagram</a>
         <a href="#">Flickr</a>
@@ -255,6 +315,124 @@
       if (e.key === "ArrowLeft") show(cur - 1);
       if (e.key === "ArrowRight") show(cur + 1);
     });
+  </script>
+
+  <script>
+    // Little runner game — a camera that jumps over crates.
+    (() => {
+      const cv = document.getElementById("runner");
+      const ctx = cv.getContext("2d");
+      const H = 170, GROUND = H - 24;
+      let W = 0, state = "idle", player, obstacles, speed, score, best = 0, nextGap, last = 0, legT = 0, groundOff = 0;
+
+      try { best = +localStorage.getItem("runner-best") || 0; } catch (e) {}
+
+      function resize() {
+        const dpr = window.devicePixelRatio || 1;
+        W = cv.clientWidth;
+        cv.width = W * dpr; cv.height = H * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        if (state !== "run") draw();
+      }
+
+      function reset() {
+        player = { x: 48, y: GROUND - 24, w: 28, h: 24, vy: 0 };
+        obstacles = []; speed = 380; score = 0; nextGap = 300;
+      }
+
+      function jump() {
+        if (state !== "run") { reset(); state = "run"; last = performance.now(); requestAnimationFrame(loop); return; }
+        if (player.y >= GROUND - player.h - 0.5) player.vy = -700;
+      }
+
+      function spawn() {
+        const tall = Math.random() < 0.35;
+        const w = 16 + Math.random() * 18, h = tall ? 38 + Math.random() * 10 : 20 + Math.random() * 14;
+        obstacles.push({ x: W + 10, w, h });
+        if (Math.random() < 0.2) obstacles.push({ x: W + 10 + w + 4, w: 14 + Math.random() * 8, h: 18 + Math.random() * 10 });
+        nextGap = speed * (0.75 + Math.random() * 0.8) + 140;
+      }
+
+      function update(dt) {
+        speed = Math.min(speed + 9 * dt, 900);
+        score += speed * dt / 40;
+        player.vy += 2300 * dt;
+        player.y = Math.min(player.y + player.vy * dt, GROUND - player.h);
+        if (player.y === GROUND - player.h) player.vy = 0;
+        legT += dt; groundOff = (groundOff + speed * dt) % 40;
+
+        obstacles.forEach(o => o.x -= speed * dt);
+        obstacles = obstacles.filter(o => o.x + o.w > -10);
+        const lastO = obstacles[obstacles.length - 1];
+        if (!lastO || W - (lastO.x + lastO.w) > nextGap) spawn();
+
+        const p = { x: player.x + 4, y: player.y + 4, w: player.w - 8, h: player.h - 4 };
+        for (const o of obstacles) {
+          if (p.x < o.x + o.w && p.x + p.w > o.x && p.y + p.h > GROUND - o.h) {
+            state = "over";
+            if (score > best) { best = Math.floor(score); try { localStorage.setItem("runner-best", best); } catch (e) {} }
+          }
+        }
+      }
+
+      function drawPlayer(c) {
+        const { x, y, w, h } = player;
+        ctx.fillStyle = c;
+        ctx.fillRect(x, y + 4, w, h - 10);           // body
+        ctx.fillRect(x + 4, y, 9, 5);                 // viewfinder bump
+        ctx.fillStyle = getComputedStyle(document.body).backgroundColor;
+        ctx.beginPath(); ctx.arc(x + w / 2 + 2, y + 4 + (h - 10) / 2, 5, 0, Math.PI * 2); ctx.fill(); // lens
+        ctx.fillStyle = c;
+        ctx.beginPath(); ctx.arc(x + w / 2 + 2, y + 4 + (h - 10) / 2, 2.5, 0, Math.PI * 2); ctx.fill();
+        const onGround = y >= GROUND - h - 0.5, step = Math.floor(legT * 12) % 2;
+        const l1 = onGround && state === "run" ? (step ? 6 : 3) : 5, l2 = onGround && state === "run" ? (step ? 3 : 6) : 5;
+        ctx.fillRect(x + 6, y + h - 6, 3, l1);       // legs
+        ctx.fillRect(x + w - 9, y + h - 6, 3, l2);
+      }
+
+      function draw() {
+        const css = getComputedStyle(document.documentElement);
+        const fg = css.getPropertyValue("--text").trim(), mute = css.getPropertyValue("--muted").trim();
+        ctx.clearRect(0, 0, W, H);
+        if (!player) reset();
+
+        ctx.fillStyle = mute;
+        ctx.fillRect(0, GROUND, W, 1);
+        for (let gx = -groundOff; gx < W; gx += 40) ctx.fillRect(gx, GROUND + 7, 6, 1), ctx.fillRect(gx + 22, GROUND + 13, 3, 1);
+
+        ctx.strokeStyle = fg; ctx.lineWidth = 1.5;
+        obstacles.forEach(o => {
+          const y = GROUND - o.h;
+          ctx.strokeRect(o.x + 0.75, y + 0.75, o.w - 1.5, o.h - 0.75);
+          ctx.beginPath(); ctx.moveTo(o.x + 1, y + 1); ctx.lineTo(o.x + o.w - 1, GROUND); ctx.stroke();
+        });
+
+        drawPlayer(fg);
+
+        ctx.fillStyle = mute;
+        ctx.font = "13px -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif";
+        ctx.textAlign = "right";
+        ctx.fillText(`best ${String(best).padStart(5, "0")}   ${String(Math.floor(score)).padStart(5, "0")}`, W - 12, 22);
+
+        ctx.textAlign = "center"; ctx.fillStyle = fg;
+        if (state === "idle") ctx.fillText("Press Space or tap to start", W / 2, 70);
+        if (state === "over") ctx.fillText("Game over — press Space or tap to try again", W / 2, 70);
+      }
+
+      function loop(now) {
+        const dt = Math.min((now - last) / 1000, 0.05); last = now;
+        update(dt); draw();
+        if (state === "run") requestAnimationFrame(loop);
+      }
+
+      cv.addEventListener("keydown", e => {
+        if (e.code === "Space" || e.code === "ArrowUp") { e.preventDefault(); jump(); }
+      });
+      cv.addEventListener("pointerdown", e => { e.preventDefault(); cv.focus(); jump(); });
+      window.addEventListener("resize", resize);
+      matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => state !== "run" && draw());
+      resize();
+    })();
   </script>
 </body>
 </html>
